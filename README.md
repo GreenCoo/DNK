@@ -1,3 +1,3 @@
 # DNK Project
 
-_This is project for help to select students for education_
+_This is project fto help select students for education_
