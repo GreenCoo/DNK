@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="/static/style.css" rel="stylesheet" type="text/css">
+    <style>
+        div ul li {
+            position: relative;
+            float: left;
+            list-style-type: none;
+        }
+
+        div ul li a{
+            padding: 20px;
+            color: #000000;
+            font-size: 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+        div ul li a:hover{
+            background: #000000;
+            color: #ffffff;
+
+        }
+
+        div ul li ul{
+            position: absolute;
+            left: 0;
+            width: 180px;
+            background: #ffffff;
+            display: none;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        div ul li ul li{
+            width: 175px;
+            background: rgb(255, 255, 255);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        div ul li:hover > ul {
+            display: initial;
+        }
+
+        .logo
+        {
+            font-size: 22px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        div
+        {
+            z-index: 10;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            height: 75px;
+        }
+    </style>
+    <title>Title</title>
+</head>
+<body style="width: 100%; margin: 0; padding: 0">
+<div style="border-color: #000099; border-bottom-style: solid; border-width: 5px;">
+    <h1 class="logo">Заголовок сайта</h1>
+    <nav>
+        <ul>
+            <li><a>Аккаунт</a>
+                <ul>
+                    <li><a href="/account">Аккаунт</a></li>
+                    <li><a href="/logout">Выйти</a></li>
+                </ul>
+            </li>
+            <li><a>Тест</a>
+                <ul>
+                    <li><a href="/test">Тест</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
