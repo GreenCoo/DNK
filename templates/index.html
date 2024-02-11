@@ -7,18 +7,21 @@
 <body>
   <nav>
     <span>
-      <a href="Main Page">Main Page</a>
-      <a href="Tests">Tests</a>
-      <a href="Profile">Profile</a>
+      <a href="/">Tests</a>
+      <a href="admin">Admin</a>
       </span>
   </nav>
-  <a href="{{name}}">{{name}}</a>
-  <form>
-    <label for="username">Имя пользователя:</label>
-      <input type="text" id="username" required>
-        <label for="password">Пароль:</label>
-      <input type="password" id="password" required>
-    <button type="submit">Войти</button>
-  </form>
+  <main>
+    <ol>
+      {% for i in tests %}
+        <li>
+          <a href="/{{ i }}">Test number {{ i }}</a>
+        </li>
+      {% endfor %}
+    </ol>
+  </main>  
+  <footer>
+    
+  </footer>
 </body>
 </html>
