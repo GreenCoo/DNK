@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .card_base
+        {
+            border-style: solid;
+            border-radius: 10px;
+            margin: auto;
+            width: 50%;
+            margin-top: 10%;
+            padding-right: 10px;
+            padding-left: 10px;
+            padding-bottom: 30px;
+            padding-top: 10px;
+        }
+
+        .text_formation
+        {
+            font-size: 20px;
+        }
+
+        .input_formation
+        {
+            width: 80%;
+            font-size: 18px;
+        }
+
+        .radio_input_formation
+        {
+            font-size: 18px;
+        }
+
+        .button_formation
+        {
+            float: right;
+            font-size: 16px;
+            color: white;
+            background-color: green;
+            border: none;
+            border-radius: 10px;
+            width: 170px;
+            height: 30px;
+        }
+
+        .button_formation:active
+        {
+            background-color: rgb(0, 200, 0);
+        }
+    </style>
+</head>
+<body>
+<div class="card_base">
+    <p>Вопрос: 1/10</p>
+    <div style="padding-top: 20px;">
+        <p class="text_formation">Здесь должен быть написан вопрос, но у нас их нет, поэтому ты видишь именно это!</p>
+    </div>
+    <!--Это вариант с написанием правильного ответа
+    <div style="padding-top: 20px;">
+        <input placeholder="Введи ответ:" class="input_formation">
+    </div>
+    -->
+    <!--Это вариант с выбором ответа-->
+    <div style="padding-top: 10px;">
+        <input class="radio_input_formation" type="radio" id="first" value="Вариант ответа №1" name="test">
+        <label for="first">Вариант ответа №1</label>
+    </div>
+    <div style="padding-top: 10px;">
+        <input class="radio_input_formation" type="radio" id="second" value="Вариант ответа №2" name="test">
+        <label for="second">Вариант ответа №2</label>
+    </div>
+    <div style="padding-top: 10px;">
+        <input class="radio_input_formation" type="radio" id="third" value="Вариант ответа №3" name="test">
+        <label for="third">Вариант ответа №3</label>
+    </div>
+    <div style="padding-top: 10px;">
+        <input class="radio_input_formation" type="radio" id="fourth" value="Вариант ответа №4" name="test">
+        <label for="fourth">Вариант ответа №4</label>
+    </div>
+    <div style="padding-top: 20px; padding-bottom: 20px;">
+        <button class="button_formation" onclick="/login">Следующий вопрос</button>
+    </div>
+
+</div>
+</body>
+</html>
