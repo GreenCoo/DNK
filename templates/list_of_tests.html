@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'site_hiding.html' %}
 
 {#
     tests - list of tests from db
@@ -8,9 +8,10 @@
 #}
 
 {% block main %}
+{{ super() }}
     <ol>
     {% for i in tests %}
-        <li><a href="{{ i.id }}">{{ i.name }}</a></li>    
+        <li><a href="/tests/{{ i.id }}">{{ i.name }}</a></li>    
     {% endfor %}
     </ol>
 {% endblock main %}

@@ -15,14 +15,14 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="./templates")
 
 
-class Tests(BaseModel):
+class Test(BaseModel):
     id: int
     name: str
     body: str
     answers: list[str]
 
 
-some_tests = [Tests(id=i, name=f"Some cool test number {i}", body=f"coolist body for test {i}", answers=["First", "Second"]) for i in range(10)]
+some_tests = [Test(id=i, name=f"Some cool test number {i}", body=f"coolist body for test {i}", answers=["First", "Second"]) for i in range(10)]
 
 
 @app.get("/")
@@ -37,8 +37,8 @@ async def list_of_tests(request: Request) -> HTMLResponse:
         name="list_of_tests.html", context={"tests": some_tests}, request=request
     )
 
-@app.get("/tests/{id}")
-async def test_page(id: int, request: Request):
+@app.get("/tests/{uid}")
+async def test_page(uid: int, request: Request):
     return templates.TemplateResponse(
-        name="page_of_test.html"
+        name="page_of_test.html", context=list(filter(lambda x: x.id == uid, some_tests))[0], request=request
     )
