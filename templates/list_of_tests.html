@@ -1,0 +1,16 @@
+{% extends 'index.html' %}
+
+{#
+    tests - list of tests from db
+    i structure:
+        id: str
+        name: str 
+#}
+
+{% block main %}
+    <ol>
+    {% for i in tests %}
+        <li><a href="{{ i.id }}">{{ i.name }}</a></li>    
+    {% endfor %}
+    </ol>
+{% endblock main %}
