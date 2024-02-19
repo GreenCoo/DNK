@@ -1,6 +1,9 @@
+{% extends 'index.html' %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% block head %}
     <meta charset="UTF-8">
     <link href="/static/style.css" rel="stylesheet" type="text/css">
     <style>
@@ -65,9 +68,11 @@
             height: 75px;
         }
     </style>
-    <title>Title</title>
+    {{ super() }}
+    {% endblock head %}
 </head>
 <body style="width: 100%; margin: 0; padding: 0">
+    {% block main %}
 <div style="border-color: #000099; border-bottom-style: solid; border-width: 5px;">
     <h1 class="logo">Заголовок сайта</h1>
     <nav>
@@ -80,11 +85,12 @@
             </li>
             <li><a>Тест</a>
                 <ul>
-                    <li><a href="/test">Тест</a></li>
+                    <li><a href="/tests">Тесты</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
 </div>
 </body>
+{% endblock main %}
 </html>

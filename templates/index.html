@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DNK</title>
+  {% block head %}
+    <title>DNK</title>
+  {% endblock head %}
 </head>
 <body>
   <nav>
     <span>
-      <a href="/">Tests</a>
-      <a href="admin">Admin</a>
+      <a href="/tests">Tests</a>
+      <a href="/admin">Admin</a>
       </span>
   </nav>
   <main>
-    <ol>
-      {% for i in tests %}
-        <li>
-          <a href="/{{ i }}">Test number {{ i }}</a>
-        </li>
-      {% endfor %}
-    </ol>
+    {% block main %}
+      
+    {% endblock main %}
   </main>  
   <footer>
     
