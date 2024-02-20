@@ -42,18 +42,20 @@
     </style>
 </head>
 <body>
-<div class="login_base">
+
+<form action="/login" method="post" class="login_base">
     <div class="divs_params">
       <h1>Login</h1>
-      <input class="login_password_input"></input>
+      <input class="login_password_input" name="username"></input>
     </div>
     <div class="divs_params">
       <h1>Password</h1>
-      <input type="password" class="login_password_input"></input>
+      <input type="password" class="login_password_input" name="password"></input>
     </div>
     <div class="divs_params">
-      <button class="sign_in_button">Sign in</button>
+      <input class="button sign_in_button" type="submit" value="submit"></input>
     </div>
-</div>
+</form>
+
 </body>
 </html>
