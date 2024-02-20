@@ -1,60 +1,30 @@
-{% extends 'index.html' %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% block head %}
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link href="/static/style.css" rel="stylesheet" type="text/css">
     <style>
-        div ul li {
-            position: relative;
-            float: left;
-            list-style-type: none;
-        }
-
-        div ul li a{
-            padding: 20px;
-            color: #000000;
-            font-size: 16px;
-            display: block;
-            text-decoration: none;
-        }
-
-        div ul li a:hover{
-            background: #000000;
-            color: #ffffff;
-
-        }
-
-        div ul li ul{
-            position: absolute;
+        .upper_field{
+            border: 4px solid black;
+            position: fixed;
+            top: 0;
             left: 0;
-            width: 180px;
-            background: #ffffff;
-            display: none;
-            background: rgba(0, 0, 0, 0);
+            width: 100%;
+            background-color: #ffffff;
+            opacity: 1;
         }
 
-        div ul li ul li{
-            width: 175px;
-            background: rgb(255, 255, 255);
-            border: 1px solid rgba(0, 0, 0, 0.1);
-        }
-
-        div ul li:hover > ul {
-            display: initial;
-        }
-
-        .logo
+        .lower_field
         {
-            font-size: 22px;
-            color: #000000;
-            text-decoration: none;
+            margin-top: 20px;
+            position: relative;
+            top: 75px;
         }
 
-        div
-        {
+        header {
             z-index: 10;
             position: fixed;
             top: 0;
@@ -66,31 +36,78 @@
             align-items: center;
             padding: 0 8%;
             height: 75px;
+            border-bottom: 5px solid #000099;
         }
+
+        header .logo{
+            font-size: 22px;
+            color: #000000;
+            text-decoration: none;
+        }
+
+        header nav ul li {
+            position: relative;
+            float: left;
+            list-style-type: none;
+        }
+
+        header nav ul li a{
+            padding: 20px;
+            color: #000000;
+            font-size: 16px;
+            display: block;
+            text-decoration: none;
+        }
+
+        header nav ul li a:hover{
+            background: #000000;
+            color: #ffffff;
+
+        }
+
+        nav ul li ul{
+            position: absolute;
+            left: 0;
+            width: 180px;
+            background: #ffffff;
+            display: none;
+            background: rgba(0, 0, 0, 0);
+        }
+
+        nav ul li ul li{
+            width: 175px;
+            background: rgb(255, 255, 255);
+            border: 1px solid rgba(0, 0, 100, 0.1);
+        }
+
+        nav ul li:hover > ul {
+            display: initial;
+        }
+
     </style>
-    {{ super() }}
-    {% endblock head %}
 </head>
-<body style="width: 100%; margin: 0; padding: 0">
-    {% block main %}
-<div style="border-color: #000099; border-bottom-style: solid; border-width: 5px;">
-    <h1 class="logo">Заголовок сайта</h1>
+<body>
+<header>
+    <a href="/" class="logo">Название сайта</a>
     <nav>
         <ul>
-            <li><a>Аккаунт</a>
+            <li><a href="/login">Аккаунт</a>
                 <ul>
-                    <li><a href="/account">Аккаунт</a></li>
-                    <li><a href="/logout">Выйти</a></li>
+                    <li><a href="/login">Войти</a></li>
+                    <li><a href="/registration">Зарегестироваться</a></li>
                 </ul>
             </li>
-            <li><a>Тест</a>
-                <ul>
-                    <li><a href="/tests">Тесты</a></li>
-                </ul>
-            </li>
+            <li><a href="/tests">Тесты</a></li>
         </ul>
     </nav>
+</header>
+<div class="lower_field">
+    {% block content %}{% endblock %}
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
-{% endblock main %}
 </html>
