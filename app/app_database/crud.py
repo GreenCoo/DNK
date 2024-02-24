@@ -12,3 +12,7 @@ def get_tests(session: Session, limit: Union[int, None] = None):
 
 def get_test_by_id(uid: int, session: Session):
     return session.query(models.Test).filter(models.Test.id == uid).first()
+
+
+def get_question(qid: int, uid: int, session: Session):
+    return session.query(models.Question).filter(models.Question.id_in_test == qid, models.Question.test_id == uid).first()

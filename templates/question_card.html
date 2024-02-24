@@ -52,37 +52,30 @@
     </style>
 </head>
 <body>
-<div class="card_base">
-    <p>Вопрос: 1/10</p>
+{% block content %}
+<form class="card_base" action="/tests/{{ q.test_id }}/{{ q.id_in_test + 1}}">
+    <p>Вопрос: {{ q.id_in_test }}/10</p>
     <div style="padding-top: 20px;">
-        <p class="text_formation">Здесь должен быть написан вопрос, но у нас их нет, поэтому ты видишь именно это!</p>
+        <p class="text_formation">{{ q.question }}</p>
     </div>
-    <!--Это вариант с написанием правильного ответа
+    {% if q.is_choosing == 0 %}
+    <!--Это вариант с написанием правильного ответа-->
     <div style="padding-top: 20px;">
         <input placeholder="Введи ответ:" class="input_formation">
     </div>
-    -->
     <!--Это вариант с выбором ответа-->
+    {% else %}
+    {% for opt in options %}
     <div style="padding-top: 10px;">
-        <input class="radio_input_formation" type="radio" id="first" value="Вариант ответа №1" name="test">
-        <label for="first">Вариант ответа №1</label>
+        <input class="radio_input_formation" type="radio" id="{{ opt }}" value="{{opt}}" name="test">
+        <label for="{{ opt }}">{{ opt }}</label>
     </div>
-    <div style="padding-top: 10px;">
-        <input class="radio_input_formation" type="radio" id="second" value="Вариант ответа №2" name="test">
-        <label for="second">Вариант ответа №2</label>
-    </div>
-    <div style="padding-top: 10px;">
-        <input class="radio_input_formation" type="radio" id="third" value="Вариант ответа №3" name="test">
-        <label for="third">Вариант ответа №3</label>
-    </div>
-    <div style="padding-top: 10px;">
-        <input class="radio_input_formation" type="radio" id="fourth" value="Вариант ответа №4" name="test">
-        <label for="fourth">Вариант ответа №4</label>
-    </div>
+    {% endfor %}
+    {% endif %}
     <div style="padding-top: 20px; padding-bottom: 20px;">
-        <button class="button_formation" onclick="/login">Следующий вопрос</button>
+        <button class="button_formation" onclick="/">Следующий вопрос</button>
     </div>
-
-</div>
+</form>
+{% endblock %}
 </body>
 </html>
