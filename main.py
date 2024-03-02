@@ -9,7 +9,7 @@ from typing import Annotated
 
 from sqlalchemy.orm import Session
 
-from app.app_database import database, crud, models
+from app.database import database, crud, models
 
 models.Base.metadata.create_all(bind=database.engine)
 
