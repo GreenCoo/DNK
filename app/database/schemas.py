@@ -6,8 +6,8 @@ class QuestionBase(BaseModel):
     id: int
     body: str
     type_answer: int
-    images: Union[str, None] = None
-    answers: str
+    images: Union[List[str], None] = None
+    answers: List[Union[str, int]]
 
 
 class QuestionNew(QuestionBase):
