@@ -43,7 +43,22 @@ async def list_of_tests(request: Request, db: Session = Depends(get_db)) -> HTML
 
 @app.get("/tests/{uid}")
 async def test_page(uid: int, request: Request, db: Session = Depends(get_db)):
-    return templates.TemplateResponse(
-        name="page_of_test.html", context={"test": crud.get_test_by_id(uid, session=db)}, request=request
-    )
+    pass
+
+
+# @app.get("/tests/{uid}/{qid}")
+# async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(get_db)):
+#     q = crud.get_question(qid, uid, db)
+#     if q is None:
+#         return RedirectResponse(url="/tests")
+#
+#     if not q.answer_options is None:
+#         options = q.answer_options.split(';')
+#     else:
+#         options = []
+#     return templates.TemplateResponse(
+#         name="question_card.html", context={"q": q,
+#         "options": options}, request=request
+#     )
+#
 

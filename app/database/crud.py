@@ -1,9 +1,7 @@
 from . import schemas, models
 from sqlalchemy import select, Row, delete
 from sqlalchemy.orm import Session
-from typing import Union, List, Type, Tuple, Sequence, Optional
-
-from .models import Test, Question
+from typing import Union, List, Sequence, Optional
 
 """
     Этот файл нужен для работы с базой данных и преобразования ответов моделей в pydantic модели. Валидация и защита от 
@@ -11,61 +9,59 @@ from .models import Test, Question
 """
 
 
-def get_tests(session: Session, limit: Union[int, None] = 10) -> Sequence[Row[tuple[Test]]]:
+def get_tests(session: Session, limit: Union[int, None] = 10) -> Sequence[Row[tuple[models.Test]]]:
     query = select(models.Test)
+
     if limit:
         query = query.limit(limit)
+
     return session.execute(query).all()
 
 
 def get_test_by_id(uid_test: int, session: Session) -> Optional[models.Test]:
-    return session.get(models.Test, uid_test)
+    result = session.get(models.Test, uid_test)
+
+    return result
 
 
-def get_questions(test_id: int, session: Session) -> Optional[Question]:
-    test = get_test_by_id(test_id, session)
-    if test:
-        return test.quests
-    return None
-
-
-def get_answers(uid_test: int, uid_quest: int, session: Session) -> Optional[List[str]]:
+def get_question_by_id(uid_test: int, uid_quest: int, session: Session) -> Optional[models.Question]:
     """
     :param uid_test: id of test
     :param uid_quest: id of question pin on test
     :param session: session for work with orm models from sqlalchemy
-    :return: list of answers or None
+    :return: models.Question
     """
+
     query = select(models.Question) \
         .where(models.Question.test_id == uid_test, models.Question.id == uid_quest)
+
     result = session.scalar(
         query
     )
-    if result:
-        return result.answers.split(',')
-    return None
+
+    return result
 
 
 # This function create and commit test into database
 def create_test(
-        session: Session,
-        test: schemas.Test,
-        questions: List[schemas.QuestionNew]
+        test_new: schemas.Test,
+        session: Session
 ):
     """
         Create new test in database and pin all questions from test on it.
-        :param session: sqlalchemy.orm.Session
-        :param test: app.database.schemas.TestNew
-        :param questions: list of app.database.schemas.QustionNew
-
+        :param session: sqlalchemy.orm.SessionInDB
+        :param test_new: app.database.schemas.Test
     """
-    test = models.Test(**test.model_dump())
-    test.quests = [models.Question(**i.model_dump()) for i in questions]
+    test = models.Test.from_Test(test_new)
     session.add(test)
     session.commit()
 
 
 def delete_test(uid_test: int, session: Session):
-    query = delete(models.Test).where(models.Test.id == uid_test)
-    session.execute(query)
+    test = get_test_by_id(uid_test, session)
+    list(map(lambda x: session.delete(x), test.questions))
+    session.delete(test)
     session.commit()
+
+
+

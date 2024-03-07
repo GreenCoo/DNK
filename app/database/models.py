@@ -1,17 +1,56 @@
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, DateTime
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from app.database.database import Base
-from typing import List, Union
+from .database import Base
+from . import schemas
+from typing import List, Union, Type
 from datetime import date
 
 
 # TODO Make the datetime column and Make auto update with depend on time
 class Test(Base):
+
     __tablename__ = "test"
     id: Mapped[int] = mapped_column(primary_key=True, index=True)
     name: Mapped[str] = mapped_column(nullable=False)
 
-    quests: Mapped[List['Question']] = relationship(back_populates="test", cascade="all,delete")
+    questions: Mapped[List['Question']] = relationship(
+        back_populates="test",
+        cascade="all, delete",
+        passive_deletes=True
+    )
+
+    def to_TestLight(self) -> schemas.TestLight:
+
+        questions = list(map(lambda x: x.id, self.questions))
+
+        return schemas.TestLight(
+            id=self.id,
+            name=self.name,
+            questions=questions
+        )
+
+    def to_Test(self) -> schemas.Test:
+
+        questions = list(map(lambda x: x.to_Question(), self.questions))
+
+        return schemas.Test(
+            id=self.id,
+            name=self.name,
+            questions=questions
+        )
+
+    @classmethod
+    def from_Test(cls, test: schemas.Test):
+
+        questions = list(map(lambda x: Question.from_Question(x), test.questions))
+
+        obj = cls(
+            id=test.id,
+            name=test.name,
+            questions=questions
+        )
+
+        return obj
 
     # def __init__(self, id: Union[int, None], name: str):
     #     super().__init__()
@@ -24,9 +63,46 @@ class Question(Base):
     type_answer: Mapped[int] = mapped_column(nullable=False)
     images: Mapped[str] = mapped_column(nullable=True)
     answers: Mapped[str] = mapped_column(nullable=False)
-    test_id: Mapped[int] = mapped_column(ForeignKey(Test.id))
+    test_id: Mapped[int] = mapped_column(ForeignKey(Test.id, ondelete="CASCADE"))
 
-    test: Mapped[Test] = relationship(back_populates="quests")
+    test: Mapped[Test] = relationship(back_populates="questions")
+
+    def to_Question(self) -> schemas.Question:
+
+        answers = self.answers.split(',')
+        images = self.images
+
+        if images:
+            images = images.split(',')
+
+        return schemas.Question(
+            id=self.id,
+            body=self.body,
+            type_answer=self.type_answer,
+            images=images,
+            answers=answers
+        )
+
+    @classmethod
+    def from_Question(cls, question: schemas.Question):
+
+        answers = question.answers
+        images = question.images
+
+        if images:
+            images = ",".join(images)
+        if answers:
+            answers = ",".join(answers)
+
+        obj = cls(
+            id=question.id,
+            body=question.body,
+            type_answer=question.type_answer,
+            images=images,
+            answers=answers
+        )
+
+        return obj
 
     # def __init__(self, id: Union[int, None], body: str, type_answer: int, images: Union[str, None]):
     #     super().__init__()

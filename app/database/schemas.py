@@ -1,33 +1,39 @@
 from pydantic import BaseModel
-from typing import List, Union
+from typing import List, Union, Optional
 
 
-class QuestionBase(BaseModel):
-    id: int
+class Question(BaseModel):
+    id: Optional[int] = None
     body: str
     type_answer: int
-    images: Union[List[str], None] = None
-    answers: List[Union[str, int]]
+    images: Optional[List[str]] = None
+    answers: List[str]
 
 
-class QuestionNew(QuestionBase):
-    id: Union[int, None] = None
+# class NewQuestionInDB(Question):
+#     id: Optional[int] = None
+#     answers: str
 
 
-class TestBase(BaseModel):
-    id: int
+class Test(BaseModel):
+    id: Optional[int] = None
     name: str
+    questions: List[Question]
 
 
-class TestNew(TestBase):
-    id: Union[int, None] = None
+class TestLight(Test):
+    questions: List[int]
 
 
-class Test(TestBase):
-    # answers: List[QuestionBase]
+# class NewTestInDB(Test):
+#     id: Optional[int] = None
+#     questions: List[NewQuestionInDB]
 
-    class Config:
-        from_attributes = True
+
+# class Test(TestBase):
+#
+#     class Config:
+#         from_attributes = True
 
 
 # TODO Make this class Users with base on class Users from Models.py
