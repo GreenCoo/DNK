@@ -63,7 +63,7 @@
     </div>
     -->
     <!--Это вариант с выбором ответа-->
-    {% for i in question.answers %}
+    {% for i in question.answers[::2] %}
         <div style="padding-top: 10px;">
             {# question.type_answer Это тип ответа: radiobutton или вписываеммый ответ или ответ с галочками 
                 TODO Нужно реализовать через jinja if модель ответа лежит в app.database.schemas.Question #}

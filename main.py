@@ -1,7 +1,7 @@
 import fastapi
 
 from fastapi import FastAPI, Request, Path, Depends
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
@@ -38,6 +38,7 @@ async def root(request: Request) -> HTMLResponse:
 @app.get("/tests")
 async def list_of_tests(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
     result = crud.get_tests(db)
+    print(result)
     return templates.TemplateResponse(
         name="list_of_tests.html",
         context={"tests": result},
@@ -57,7 +58,19 @@ async def test_page(uid: int, request: Request, db: Session = Depends(get_db)):
     raise fastapi.HTTPException(status_code=404)
 
 
-# @app.get("/tests/{uid}/{qid}")
+@app.get("/tests/{uid}/{qid}")
+async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(get_db)):
+    result = crud.get_question_by_id(uid, qid, session=db)
+
+    if result is None:
+        return RedirectResponse(url="/tests")
+
+    return templates.TemplateResponse(
+        name="question_card.html", context={"question": result},
+        request=request
+    )
+
+
 # async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(get_db)):
 #     q = crud.get_question(qid, uid, db)
 #     if q is None:
