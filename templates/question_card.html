@@ -53,9 +53,9 @@
 </head>
 <body>
 <div class="card_base">
-    <p>Вопрос: 1/10</p>
+    <p>Тест номер {{ question.id }}</p>
     <div style="padding-top: 20px;">
-        <p class="text_formation">Здесь должен быть написан вопрос, но у нас их нет, поэтому ты видишь именно это!</p>
+        <p class="text_formation">{{ question.body }}</p>
     </div>
     <!--Это вариант с написанием правильного ответа
     <div style="padding-top: 20px;">
@@ -63,6 +63,15 @@
     </div>
     -->
     <!--Это вариант с выбором ответа-->
+    {% for i in question.answers %}
+        <div style="padding-top: 10px;">
+            {# question.type_answer Это тип ответа: radiobutton или вписываеммый ответ или ответ с галочками 
+                TODO Нужно реализовать через jinja if модель ответа лежит в app.database.schemas.Question #}
+            <input class="radio_input_formation" type="radio" value="Вариант ответа №{{ loop.index }}" name="test">
+            <label>{{ i }}</label>
+        </div>
+    {% endfor %}
+    <!-- 
     <div style="padding-top: 10px;">
         <input class="radio_input_formation" type="radio" id="first" value="Вариант ответа №1" name="test">
         <label for="first">Вариант ответа №1</label>
@@ -78,11 +87,12 @@
     <div style="padding-top: 10px;">
         <input class="radio_input_formation" type="radio" id="fourth" value="Вариант ответа №4" name="test">
         <label for="fourth">Вариант ответа №4</label>
-    </div>
+    </div> -->
+    <!-- TODO Сделать отправку данных из формы
     <div style="padding-top: 20px; padding-bottom: 20px;">
         <button class="button_formation" onclick="/login">Следующий вопрос</button>
     </div>
-
+    -->
 </div>
 </body>
 </html>

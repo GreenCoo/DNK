@@ -1,7 +1,13 @@
 {% extends 'site_hiding.html' %}
 {% block content %}
     {{ super() }}
+    
     <h1>{{ test.name }}</h1>
-    <h3>{{ test.body }}</h3>
-    <h2>{{ test.answers }}</h2>
+    
+    {% for i in test.questions %}
+    <div>
+        
+    </div>    
+    {% endfor %}
+    
 {% endblock content %}

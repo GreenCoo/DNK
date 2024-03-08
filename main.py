@@ -30,20 +30,31 @@ def get_db():
 @app.get("/")
 async def root(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
-        name="site_hiding.html", request=request
+        name="site_hiding.html",
+        request=request
     )
 
 
 @app.get("/tests")
 async def list_of_tests(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
+    result = crud.get_tests(db)
     return templates.TemplateResponse(
-        name="list_of_tests.html", context={"tests": crud.get_tests(db)}, request=request
+        name="list_of_tests.html",
+        context={"tests": result},
+        request=request
     )
 
 
 @app.get("/tests/{uid}")
 async def test_page(uid: int, request: Request, db: Session = Depends(get_db)):
-    pass
+    result = crud.get_test_by_id(uid, db)
+    if result:
+        return templates.TemplateResponse(
+            name="page_of_test.html",
+            context={"test": result},
+            request=request
+        )
+    raise fastapi.HTTPException(status_code=404)
 
 
 # @app.get("/tests/{uid}/{qid}")

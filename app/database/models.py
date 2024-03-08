@@ -21,7 +21,8 @@ class Test(Base):
 
     def to_TestLight(self) -> schemas.TestLight:
 
-        questions = list(map(lambda x: x.id, self.questions))
+        questions = len(self.questions)
+        # questions = list(map(lambda x: x.id, self.questions))
 
         return schemas.TestLight(
             id=self.id,
@@ -59,6 +60,7 @@ class Test(Base):
 class Question(Base):
     __tablename__ = "quest"
     id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(nullable=False)
     body: Mapped[str] = mapped_column(nullable=False)
     type_answer: Mapped[int] = mapped_column(nullable=False)
     images: Mapped[str] = mapped_column(nullable=True)
@@ -75,13 +77,10 @@ class Question(Base):
         if images:
             images = images.split(',')
 
-        return schemas.Question(
-            id=self.id,
-            body=self.body,
-            type_answer=self.type_answer,
-            images=images,
-            answers=answers
-        )
+        dict_obj = self.__dict__
+        dict_obj.update({"answers": answers, "images": images})
+
+        return schemas.Question(**dict_obj)
 
     @classmethod
     def from_Question(cls, question: schemas.Question):
@@ -94,13 +93,10 @@ class Question(Base):
         if answers:
             answers = ",".join(answers)
 
-        obj = cls(
-            id=question.id,
-            body=question.body,
-            type_answer=question.type_answer,
-            images=images,
-            answers=answers
-        )
+        question_dump = question.model_dump()
+        question_dump.update({"answers": answers, "images": images})
+
+        obj = cls(**question_dump)
 
         return obj
 

@@ -4,6 +4,7 @@ from typing import List, Union, Optional
 
 class Question(BaseModel):
     id: Optional[int] = None
+    name: str
     body: str
     type_answer: int
     images: Optional[List[str]] = None
@@ -22,7 +23,8 @@ class Test(BaseModel):
 
 
 class TestLight(Test):
-    questions: List[int]
+    questions: int  # count of tests
+    # questions: List[int]  # list of ids of tests
 
 
 # class NewTestInDB(Test):

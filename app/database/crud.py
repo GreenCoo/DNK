@@ -9,13 +9,16 @@ from typing import Union, List, Sequence, Optional
 """
 
 
-def get_tests(session: Session, limit: Union[int, None] = 10) -> Sequence[Row[tuple[models.Test]]]:
+# TODO remake this function with get only id and name from database
+def get_tests(session: Session, limit: int = 10) -> List[schemas.TestLight]:
     query = select(models.Test)
 
     if limit:
         query = query.limit(limit)
 
-    return session.execute(query).all()
+    tests = session.scalars(query).all()
+
+    return list(map(lambda x: x.to_TestLight(), tests))
 
 
 def get_test_by_id(uid_test: int, session: Session) -> Optional[models.Test]:
@@ -62,6 +65,4 @@ def delete_test(uid_test: int, session: Session):
     list(map(lambda x: session.delete(x), test.questions))
     session.delete(test)
     session.commit()
-
-
 

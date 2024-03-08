@@ -9,3 +9,8 @@ SessionLocal = sessionmaker(engine, autoflush=False, autocommit=False)
 
 class Base(DeclarativeBase):
     pass
+
+
+def recreate():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
