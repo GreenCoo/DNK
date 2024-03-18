@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {% block head %}
-    <title>DNK</title>
-  {% endblock head %}
-</head>
-<body>
-  <nav>
-    <span>
-      <a href="/tests">Tests</a>
-      <a href="/admin">Admin</a>
-      </span>
-  </nav>
-  <main>
-    {% block main %}
-      
-    {% endblock main %}
-  </main>  
-  <footer>
-    
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">    <title>DNK</title>
+  </head>
+  <body>
+    <header>
+      {% include 'header.html' %}
+      {#
+      Some header that import from other files..
+      Now import from header.html..
+      #}
+    </header>
+    <main>
+      {% block main %}
+        
+      {% endblock main %}
+    </main>
+    <footer>
+      {% include 'footer.html' %}
+    </footer>
+  </body>
+  {% block scripts %}
+    {#
+      Некоторые скрипты на js для отображения страниц.
+    #}
+  {% endblock scripts %}
 </html>

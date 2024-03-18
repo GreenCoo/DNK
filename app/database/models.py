@@ -60,48 +60,50 @@ class Test(Base):
 class Question(Base):
     __tablename__ = "quest"
     id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(nullable=False)
-    body: Mapped[str] = mapped_column(nullable=False)
-    type_answer: Mapped[int] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column()
+    body: Mapped[str] = mapped_column()
     images: Mapped[str] = mapped_column(nullable=True)
-    answers: Mapped[str] = mapped_column(nullable=False)
-    test_id: Mapped[int] = mapped_column(ForeignKey(Test.id, ondelete="CASCADE"))
 
+    type_answer: Mapped[int] = mapped_column()
+    answers: Mapped[str] = mapped_column()
+    correct_answer: Mapped[str] = mapped_column()
+
+    test_id: Mapped[int] = mapped_column(ForeignKey(Test.id, ondelete="CASCADE"))
     test: Mapped[Test] = relationship(back_populates="questions")
 
     def to_Question(self) -> schemas.Question:
-
-        answers = self.answers.split(',')
         images = self.images
+        answers = self.answers.split(',')
+        correct_answer = self.correct_answer.split(',')
 
         if images:
             images = images.split(',')
 
         dict_obj = self.__dict__
-        dict_obj.update({"answers": answers, "images": images})
+        dict_obj.update({"images": images, "answers": answers, "correct_answer": correct_answer})
 
         return schemas.Question(**dict_obj)
 
     @classmethod
     def from_Question(cls, question: schemas.Question):
 
-        answers = question.answers
         images = question.images
+        answers = question.answers
+        correct_answer = question.correct_answer
 
         if images:
             images = ",".join(images)
-        if answers:
-            answers = ",".join(answers)
+
+        answers = ",".join(answers)
+        correct_answer = ",".join(answers)
 
         question_dump = question.model_dump()
-        question_dump.update({"answers": answers, "images": images})
+        question_dump.update({"answers": answers, "images": images, "correct_answer": correct_answer})
 
         obj = cls(**question_dump)
 
         return obj
 
-    # def __init__(self, id: Union[int, None], body: str, type_answer: int, images: Union[str, None]):
-    #     super().__init__()
 
 
 class User(Base):

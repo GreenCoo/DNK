@@ -9,11 +9,7 @@ class Question(BaseModel):
     type_answer: int
     images: Optional[List[str]] = None
     answers: List[str]
-
-
-# class NewQuestionInDB(Question):
-#     id: Optional[int] = None
-#     answers: str
+    correct_answer: List[str]
 
 
 class Test(BaseModel):
@@ -24,18 +20,6 @@ class Test(BaseModel):
 
 class TestLight(Test):
     questions: int  # count of tests
-    # questions: List[int]  # list of ids of tests
-
-
-# class NewTestInDB(Test):
-#     id: Optional[int] = None
-#     questions: List[NewQuestionInDB]
-
-
-# class Test(TestBase):
-#
-#     class Config:
-#         from_attributes = True
 
 
 # TODO Make this class Users with base on class Users from Models.py

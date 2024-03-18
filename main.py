@@ -1,4 +1,5 @@
 import fastapi
+import uvicorn
 
 from fastapi import FastAPI, Request, Path, Depends
 from fastapi.responses import HTMLResponse, RedirectResponse
@@ -20,35 +21,41 @@ templates = Jinja2Templates(directory="./templates")
 
 
 def get_db():
-    db = database.SessionLocal()
+    session = database.SessionLocal()
     try:
-        yield db
+        yield session
     finally:
-        db.close()
+        session.close()
 
 
 @app.get("/")
 async def root(request: Request) -> HTMLResponse:
     return templates.TemplateResponse(
-        name="site_hiding.html",
+        name="index.html",
         request=request
     )
 
 
 @app.get("/tests")
-async def list_of_tests(request: Request, db: Session = Depends(get_db)) -> HTMLResponse:
-    result = crud.get_tests(db)
+async def list_of_tests(request: Request, session: Session = Depends(get_db)) -> HTMLResponse:
+    result = crud.get_tests(session)
     print(result)
     return templates.TemplateResponse(
-        name="list_of_tests.html",
-        context={"tests": result},
+        name="tests.html",
         request=request
     )
 
 
+@app.get("/get_tests")
+async def get_tests(limit: int = None, session: Session = Depends(get_db)):
+    if limit:
+        return crud.get_tests(session, limit)
+    return crud.get_tests(session)
+
+
 @app.get("/tests/{uid}")
-async def test_page(uid: int, request: Request, db: Session = Depends(get_db)):
-    result = crud.get_test_by_id(uid, db)
+async def test_page(uid: int, request: Request, session: Session = Depends(get_db)):
+    result = crud.get_test_by_id(uid, session)
     if result:
         return templates.TemplateResponse(
             name="page_of_test.html",
@@ -59,8 +66,8 @@ async def test_page(uid: int, request: Request, db: Session = Depends(get_db)):
 
 
 @app.get("/tests/{uid}/{qid}")
-async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(get_db)):
-    result = crud.get_question_by_id(uid, qid, session=db)
+async def test_page(uid: int, qid: int, request: Request, session: Session = Depends(get_db)):
+    result = crud.get_question_by_id(uid, qid, session=session)
 
     if result is None:
         return RedirectResponse(url="/tests")
@@ -71,8 +78,8 @@ async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(
     )
 
 
-# async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(get_db)):
-#     q = crud.get_question(qid, uid, db)
+# async def test_page(uid: int, qid: int, request: Request, session: Session = Depends(get_db)):
+#     q = crud.get_question(qid, uid, session)
 #     if q is None:
 #         return RedirectResponse(url="/tests")
 #
@@ -85,4 +92,8 @@ async def test_page(uid: int, qid: int, request: Request, db: Session = Depends(
 #         "options": options}, request=request
 #     )
 #
+#
+
+if __name__ == '__main__':
+    uvicorn.run("main:app")
 
