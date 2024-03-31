@@ -1,3 +1,6 @@
+{#
+  Корневой файл, на который ссылаются все остальные при рендере. 
+#}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,19 +10,20 @@
   </head>
   <body>
     <header>
-      {% include 'header.html' %}
-      {#
-      Some header that import from other files..
-      Now import from header.html..
-      #}
+      {% include './includes/header.html' %}
+        {#
+          Шапка сайта, которая подключается из ./includes/header.html
+        #}
     </header>
     <main>
       {% block main %}
-        
+        {# 
+          Тут основной контент который будет вставляться при рендере других файлов.
+        #}
       {% endblock main %}
     </main>
     <footer>
-      {% include 'footer.html' %}
+      {% include './includes/footer.html' %}
     </footer>
   </body>
   {% block scripts %}

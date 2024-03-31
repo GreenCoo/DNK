@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+{% block main %}
+<div class="test">
+    <div class="information">
+        <h2>{{ test.name }}</h2>
+        {% for question in test.questions %}
+        <div>
+            <a href="/test/{{ test.id }}/{{ question.id }}">
+                <h3>{{ question.name }}</h3>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock main %}

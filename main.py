@@ -6,11 +6,12 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 
-from typing import Annotated
+from typing import Annotated, Union, List
 
 from sqlalchemy.orm import Session
 
 from app.database import database, crud, models
+from app.database.schemas import TestLight, Test, Question
 
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -30,6 +31,8 @@ def get_db():
 
 @app.get("/")
 async def root(request: Request) -> HTMLResponse:
+    " This root of web app return index html "
+
     return templates.TemplateResponse(
         name="index.html",
         request=request
@@ -37,43 +40,44 @@ async def root(request: Request) -> HTMLResponse:
 
 
 @app.get("/tests")
-async def list_of_tests(request: Request, session: Session = Depends(get_db)) -> HTMLResponse:
+async def list_of_tests(request: Request, session: Session = Depends(get_db)):
+    " Return list of tests from database use crud functions "
+
     result = crud.get_tests(session)
-    print(result)
+
     return templates.TemplateResponse(
         name="tests.html",
+        context={"tests": result},
         request=request
     )
 
 
-@app.get("/get_tests")
-async def get_tests(limit: int = None, session: Session = Depends(get_db)):
-    if limit:
-        return crud.get_tests(session, limit)
-    return crud.get_tests(session)
+@app.get("/test/{tid}")
+async def test_page(tid: int, request: Request, session: Session = Depends(get_db)):
+    " Return main page of test with label and questions pages of this test "
 
+    result = crud.get_test_by_id(tid, session)
 
-@app.get("/tests/{uid}")
-async def test_page(uid: int, request: Request, session: Session = Depends(get_db)):
-    result = crud.get_test_by_id(uid, session)
     if result:
         return templates.TemplateResponse(
-            name="page_of_test.html",
+            name="test.html",
             context={"test": result},
             request=request
         )
+
     raise fastapi.HTTPException(status_code=404)
 
 
-@app.get("/tests/{uid}/{qid}")
+@app.get("/test/{uid}/{qid}")
 async def test_page(uid: int, qid: int, request: Request, session: Session = Depends(get_db)):
+
     result = crud.get_question_by_id(uid, qid, session=session)
 
     if result is None:
         return RedirectResponse(url="/tests")
 
     return templates.TemplateResponse(
-        name="question_card.html", context={"question": result},
+        name="question.html", context={"question": result},
         request=request
     )
 

@@ -1,10 +1,8 @@
 {% extends 'index.html' %}
 {% block main %}
-    <div class="tests">
-    
-    </div>
-    <script src="/static/tests.js"></script>
+<ul>
+    {% for i in tests %}
+    <li><a href="/test/{{ i.id }}">{{ i.name }} test</a></li>   
+    {% endfor %}
+</ul>
 {% endblock main %}
-<!-- {% block scripts %}
-    <script></script>
-{% endblock scripts %} -->

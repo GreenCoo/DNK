@@ -95,7 +95,7 @@ class Question(Base):
             images = ",".join(images)
 
         answers = ",".join(answers)
-        correct_answer = ",".join(answers)
+        correct_answer = ",".join(correct_answer)
 
         question_dump = question.model_dump()
         question_dump.update({"answers": answers, "images": images, "correct_answer": correct_answer})
