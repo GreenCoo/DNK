@@ -1,24 +1,35 @@
+{#
+  Корневой файл, на который ссылаются все остальные при рендере. 
+#}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  {% block head %}
-    <title>DNK</title>
-  {% endblock head %}
-</head>
-<body>
-  <nav>
-    <span>
-      <a href="/tests">Tests</a>
-      <a href="/admin">Admin</a>
-      </span>
-  </nav>
-  <main>
-    {% block main %}
-      
-    {% endblock main %}
-  </main>  
-  <footer>
-    
-  </footer>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="{{ url_for('static', path='/styles.css') }}" rel="stylesheet">
+<title>DNK</title>
+  </head>
+  <body>
+    <header>
+      {% include './includes/header.html' %}
+        {#
+          Шапка сайта, которая подключается из ./includes/header.html
+        #}
+    </header>
+    <main>
+      {% block main %}
+        {# 
+          Тут основной контент который будет вставляться при рендере других файлов.
+        #}
+      {% endblock main %}
+    </main>
+    <footer>
+      {% include './includes/footer.html' %}
+    </footer>
+  </body>
+  {% block js %}
+    {#
+      Некоторые скрипты на js для отображения страниц.
+    #}
+  {% endblock js %}
 </html>

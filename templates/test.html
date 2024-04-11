@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% block main %}
+<!-- type answer 1 - radiobutton -->
+<div class="test">
+
+    <div>
+        <h2>{{ test.name }}</h2>
+        {% for question in test.questions %}
+    
+        {# TODO javascript insert question from variavles of from get questions into div.answers #}
+        
+        <div class="question">
+            <h3>
+                {{ question.name }}
+            </h3>
+            <p>
+                {{ question.body }}
+            </p>
+            <div id="answers">
+                {# javascript insert answers with type #}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+
+    <!-- get Element which must inserted our quesitons -->
+    answersDiv = getElementById("answers")
+
+    function createAnswer(Obj){
+        
+        return;
+    }
+
+    fetch("/test/questions/1")
+        .then((resp) => resp.json())
+        .then((json) => {
+            for (const item of json) {
+                createAnswer(item);
+            }
+        })
+    
+</script>
+{% endblock main %}
+
+{% block js %}
+    <!-- <script src="/static/js/questions.js"></script> -->
+{% endblock js %}

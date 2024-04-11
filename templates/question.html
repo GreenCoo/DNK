@@ -1,0 +1,29 @@
+{#
+  Шаблон для карточки вопроса.
+  С реализацией запоминания введенных ответов, с помощью javascript
+#}
+
+{% extends 'index.html' %}
+
+{% block main %}
+    <div class="question">
+        <h2 class="title"></h2>
+        <div class="questionText">
+
+        </div>
+        <div class="questionAnswers">
+            
+        </div>
+        <div class="buttons">
+            <button id="previousButton">
+                <
+            </button>
+            <button id="nextButton">
+                >
+            </button>
+        </div>
+    </div>
+{% endblock main %}
+{% block js %}
+    <script src="/static/js/questions.js"></script>
+{% endblock js %}
