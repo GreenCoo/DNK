@@ -1,22 +1,19 @@
 {% extends 'index.html' %}
 {% block main %}
 <!-- type answer 1 - radiobutton -->
-<div class="test">
+<div id="test">
 
     <div>
         <h2>{{ test.name }}</h2>
-        {% for question in test.questions %}
-    
         {# TODO javascript insert question from variavles of from get questions into div.answers #}
-        
         <div class="question">
-            <h3>
-                {{ question.name }}
-            </h3>
+            <header>
+
+            </header>
             <p>
-                {{ question.body }}
+                
             </p>
-            <div id="answers">
+            <div class="answers">
                 {# javascript insert answers with type #}
             </div>
         </div>
@@ -26,10 +23,10 @@
 <script>
 
     <!-- get Element which must inserted our quesitons -->
-    answersDiv = getElementById("answers")
+    answersDiv = query("answers")
 
     function createAnswer(Obj){
-        
+        const document.create
         return;
     }
 
