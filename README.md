@@ -4,12 +4,12 @@ _This is project to help select students for education_
 
 * ### Install and run
 if you use pip:
-```pip
-pip install -t requirements
-python uvicorn main:app 
+```shell
+pip install -t requirements.txt
+python -m uvicorn main:app 
 ```
 if you use poetry:
-```poetry
+```shell
 poetry install
 poetry run uvicorn main:app
 ```

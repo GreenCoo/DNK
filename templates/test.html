@@ -1,0 +1,46 @@
+{% extends 'index.html' %}
+{% block main %}
+<!-- type answer 1 - radiobutton -->
+<div id="test">
+
+    <div>
+        <h2>{{ test.name }}</h2>
+        {# TODO javascript insert question from variavles of from get questions into div.answers #}
+        <div class="question">
+            <header>
+
+            </header>
+            <p>
+                
+            </p>
+            <div class="answers">
+                {# javascript insert answers with type #}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<script>
+
+    <!-- get Element which must inserted our quesitons -->
+    answersDiv = query("answers")
+
+    function createAnswer(Obj){
+        const document.create
+        return;
+    }
+
+    fetch("/test/questions/1")
+        .then((resp) => resp.json())
+        .then((json) => {
+            for (const item of json) {
+                createAnswer(item);
+            }
+        })
+    
+</script>
+{% endblock main %}
+
+{% block js %}
+    <!-- <script src="/static/js/questions.js"></script> -->
+{% endblock js %}
